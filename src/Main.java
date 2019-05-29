@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Main extends JFrame {
+public class Main extends Canvas {
 
     public static void main(String[] args) {
 
@@ -23,45 +23,36 @@ public class Main extends JFrame {
         //Drawing Tool Buttons
         JPanel dtPanel = new JPanel();
         dtPanel.setBackground(Color.LIGHT_GRAY);
-        frame.add(dtPanel);
+        dtPanel.setLayout(new BoxLayout(dtPanel, BoxLayout.PAGE_AXIS));
+        frame.getContentPane().add(dtPanel, BorderLayout.WEST);
             // shapes
         JButton plotButton = new JButton("Plot");
         JButton lineButton = new JButton("Line");
         dtPanel.add(plotButton);
         dtPanel.add(lineButton);
+
+        JPanel ctPanel = new JPanel();
+        ctPanel.setBackground(Color.LIGHT_GRAY);
+        ctPanel.setLayout(new BoxLayout(ctPanel, BoxLayout.PAGE_AXIS));
+        frame.getContentPane().add(ctPanel, BorderLayout.EAST);
             // colours
         JButton blackButton = new JButton("Black");
         JButton redButton = new JButton("Red");
         blackButton.setBackground(Color.BLACK);
         redButton.setBackground(Color.RED);
-        dtPanel.add(blackButton);
-        dtPanel.add(redButton);
+        ctPanel.add(blackButton);
+        ctPanel.add(redButton);
 
-        //Canvas Label
-        JLabel canvasLabel = new JLabel();
-        canvasLabel.setOpaque(true);
-        canvasLabel.setBackground(Color.WHITE);
-        canvasLabel.setPreferredSize(new Dimension(500,500));
-        frame.getContentPane().add(canvasLabel, BorderLayout.SOUTH);
+        //Canvas
+        Canvas canvas = new Canvas();
+        canvas.setSize(500,500);
+        frame.add(canvas);
 
         //Finalise Frame
         frame.pack();
         frame.setVisible(true);
 
-        //Action Listeners
-        blackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                canvasLabel.setBackground(Color.BLACK); //EXAMPLE
-            }
-        });
-
-        redButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                canvasLabel.setBackground(Color.RED); //EXAMPLE
-            }
-        });
+        
 
     }
 
