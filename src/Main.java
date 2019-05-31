@@ -5,14 +5,42 @@ import java.awt.Graphics;
 
 public class Main implements MouseListener, MouseMotionListener, ActionListener {
 
+    /**
+     * Global Buttons
+     */
     private JButton plotButton;
-
+    private JButton lineButton;
+    private JButton blackButton;
+    private JButton redButton;
+    private JButton greenButton;
+    private JButton blueButton;
+    private JButton yellowButton;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
-        if (action.equals("Plot")) {
-            System.out.println("PLOT"); //DEBUG
+        switch (action) {
+            case "Plot":
+                System.out.println("PLOT"); //DEBUG
+                break;
+            case "Line":
+                System.out.println("LINE"); //DEBUG
+                break;
+            case "Black":
+                System.out.println("BLACK"); //DEBUG
+                break;
+            case "Red":
+                System.out.println("RED"); //DEBUG
+                break;
+            case "Green":
+                System.out.println("GREEN"); //DEBUG
+                break;
+            case "Blue":
+                System.out.println("BLUE"); //DEBUG
+                break;
+            case "Yellow":
+                System.out.println("YELLOW"); //DEBUG
+                break;
         }
     }
 
@@ -74,10 +102,11 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
         frame.add(dtPanel, BorderLayout.WEST);
         // shapes
         plotButton = new JButton("Plot");
-        JButton lineButton = new JButton("Line");
+        lineButton = new JButton("Line");
         dtPanel.add(plotButton);
-        plotButton.addActionListener(this);
         dtPanel.add(lineButton);
+        plotButton.addActionListener(this);
+        lineButton.addActionListener(this);
 
         //Colour Tool Buttons
         JPanel ctPanel = new JPanel();
@@ -85,12 +114,26 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
         ctPanel.setLayout(new BoxLayout(ctPanel, BoxLayout.PAGE_AXIS));
         frame.add(ctPanel, BorderLayout.EAST);
         // colours
-        JButton blackButton = new JButton("Black");
-        JButton redButton = new JButton("Red");
+        blackButton = new JButton("Black");
+        redButton = new JButton("Red");
+        greenButton = new JButton("Green");
+        blueButton = new JButton("Blue");
+        yellowButton = new JButton("Yellow");
         blackButton.setBackground(Color.BLACK);
         redButton.setBackground(Color.RED);
+        greenButton.setBackground(Color.GREEN);
+        blueButton.setBackground(Color.BLUE);
+        blackButton.setBackground(Color.YELLOW);
         ctPanel.add(blackButton);
         ctPanel.add(redButton);
+        ctPanel.add(greenButton);
+        ctPanel.add(blueButton);
+        ctPanel.add(yellowButton);
+        blackButton.addActionListener(this);
+        redButton.addActionListener(this);
+        greenButton.addActionListener(this);
+        blueButton.addActionListener(this);
+        yellowButton.addActionListener(this);
 
         //Canvas
         Canvas canvas = new Canvas();
