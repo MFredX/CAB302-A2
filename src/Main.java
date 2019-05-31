@@ -49,17 +49,32 @@ public class Main extends JFrame {
         frame.setVisible(true);
 
         //Action Listeners
+        // plot
+        plotButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //line
+        lineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        //black
         blackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvasLabel.setBackground(Color.BLACK); //EXAMPLE
+
             }
         });
-
+        //red
         redButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvasLabel.setBackground(Color.RED); //EXAMPLE
+
             }
         });
 
