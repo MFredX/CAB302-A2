@@ -1,7 +1,10 @@
+import java.io.File;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Graphics;
+import java.security.Guard;
 
 public class Main implements MouseListener, MouseMotionListener, ActionListener {
 
@@ -15,7 +18,6 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
         PLOT,
         LINE
     }
-    Graphics g;
 
     /**
      * Set defaults
@@ -33,6 +35,14 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     private JButton blueButton;
     private JButton yellowButton;
 
+    private JMenuItem loadMenu;
+    private JMenuItem saveMenu;
+
+    private JFileChooser fileChooser;
+
+    private JFrame fileFrame;
+
+
     /**
      * Button handling
      * Takes the actionEvent, determines which button has been pressed and calls the appropriate function
@@ -43,6 +53,14 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
         switch (action) {
+            case "Load":
+                System.out.println("LOAD"); //DEBUG
+                load();
+                break;
+            case "Save":
+                System.out.println("SAVE"); //DEBUG
+                save();
+                break;
             case "Plot":
                 System.out.println("PLOT"); //DEBUG
                 selectedTool = DrawingTool.PLOT;
@@ -85,7 +103,6 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
         switch (selectedTool) {
             case PLOT:
                 System.out.println("PLOT DRAW"); //DEBUG
-                drawPlot(g);
                 break;
             case LINE:
                 System.out.println("LINE DRAW"); //DEBUG
@@ -112,8 +129,29 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     /**
      *
      */
-    private void drawPlot(Graphics g) {
-        g.drawLine(mouseX,mouseY,mouseX+10,mouseY+10);
+    private void load() {
+        int returnVale=fileChooser.showOpenDialog(fileFrame);
+        if(returnVale==JFileChooser.APPROVE_OPTION){
+            File file=fileChooser.getSelectedFile();
+            System.out.println("Opening"+file.getName()+"."); //THE DRAWING WILL BE DONE FROM THIS POINT ONWARDS
+        }
+        else{
+            System.out.println("Open command cancelled by user.");
+        }
+    }
+
+    /**
+     *
+     */
+    private void save() {
+        int returnVale=fileChooser.showOpenDialog(fileFrame);
+        if(returnVale==JFileChooser.APPROVE_OPTION){
+            File file = fileChooser.getSelectedFile();
+            System.out.println("Saving: " + file.getName() + ". \n");
+        }
+        else{
+            System.out.println("Save command cancelled by user. \n");
+        }
     }
 
     /**
@@ -127,11 +165,19 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     private void buildUI(Frame frame) {
         //MenuBar
         JMenuBar mb = new JMenuBar();
-        JMenu loadMenu = new JMenu("Load");
-        JMenu saveMenu = new JMenu("Save");
-        mb.add(loadMenu);
-        mb.add(saveMenu);
+        JMenu fileMenu = new JMenu("File");
         frame.add(BorderLayout.NORTH, mb);
+        mb.add(fileMenu);
+        loadMenu = new JMenuItem("Load");
+        saveMenu = new JMenuItem("Save");
+        fileMenu.add(loadMenu);
+        fileMenu.add(saveMenu);
+        loadMenu.addActionListener(this);
+        saveMenu.addActionListener(this);
+
+        //FileChoose
+        fileChooser=new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("VEC File","VEC"));
 
         //Drawing Tool Buttons
         JPanel dtPanel = new JPanel();
