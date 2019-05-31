@@ -6,6 +6,23 @@ import java.awt.Graphics;
 public class Main implements MouseListener, MouseMotionListener, ActionListener {
 
     /**
+     * Global Variables
+     */
+    int canvasDimension = 500;
+    int mouseX;
+    int mouseY;
+    enum DrawingTool {
+        PLOT,
+        LINE
+    }
+    Graphics g;
+
+    /**
+     * Set defaults
+     */
+    DrawingTool selectedTool = DrawingTool.PLOT;
+
+    /**
      * Global Buttons
      */
     private JButton plotButton;
@@ -16,15 +33,23 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     private JButton blueButton;
     private JButton yellowButton;
 
+    /**
+     * Button handling
+     * Takes the actionEvent, determines which button has been pressed and calls the appropriate function
+     * @param e the event input
+     */
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
         switch (action) {
             case "Plot":
                 System.out.println("PLOT"); //DEBUG
+                selectedTool = DrawingTool.PLOT;
                 break;
             case "Line":
                 System.out.println("LINE"); //DEBUG
+                selectedTool = DrawingTool.LINE;
                 break;
             case "Black":
                 System.out.println("BLACK"); //DEBUG
@@ -55,6 +80,17 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println("CLICK"); //DEBUG
+        mouseX = e.getX();
+        mouseY = e.getY();
+        switch (selectedTool) {
+            case PLOT:
+                System.out.println("PLOT DRAW"); //DEBUG
+                drawPlot(g);
+                break;
+            case LINE:
+                System.out.println("LINE DRAW"); //DEBUG
+                break;
+        }
     }
 
     @Override
@@ -73,9 +109,11 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
     public void mouseMoved(MouseEvent e) {
     }
 
-    public void paint(Graphics g)
-    {
-        g.fillOval(100,100,200,200);
+    /**
+     *
+     */
+    private void drawPlot(Graphics g) {
+        g.drawLine(mouseX,mouseY,mouseX+10,mouseY+10);
     }
 
     /**
@@ -84,7 +122,7 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
      *  Menu Buttons
      *  Drawing Tool and Colour Tool panels and buttons
      *  Canvas for drawing
-     * @param frame - The frame
+     * @param frame the frame
      */
     private void buildUI(Frame frame) {
         //MenuBar
@@ -100,7 +138,7 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
         dtPanel.setBackground(Color.LIGHT_GRAY);
         dtPanel.setLayout(new BoxLayout(dtPanel, BoxLayout.PAGE_AXIS));
         frame.add(dtPanel, BorderLayout.WEST);
-        // shapes
+        // buttons
         plotButton = new JButton("Plot");
         lineButton = new JButton("Line");
         dtPanel.add(plotButton);
@@ -113,7 +151,7 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
         ctPanel.setBackground(Color.LIGHT_GRAY);
         ctPanel.setLayout(new BoxLayout(ctPanel, BoxLayout.PAGE_AXIS));
         frame.add(ctPanel, BorderLayout.EAST);
-        // colours
+        // buttons
         blackButton = new JButton("Black");
         redButton = new JButton("Red");
         greenButton = new JButton("Green");
@@ -137,14 +175,14 @@ public class Main implements MouseListener, MouseMotionListener, ActionListener 
 
         //Canvas
         Canvas canvas = new Canvas();
-        canvas.setSize(500,500);
+        canvas.setSize(canvasDimension,canvasDimension);
         canvas.addMouseListener(this);
         frame.add(canvas);
     }
 
     /**
      * Creates Frame and calls buildUI
-     * @param args - args default Java entry
+     * @param args args default Java entry
      */
     public static void main(String[] args) {
 
