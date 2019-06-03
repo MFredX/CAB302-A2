@@ -1,3 +1,5 @@
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -7,32 +9,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.math.*;
 
 class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMotionListener {
     // A canvas where the user can draw lines in various colors.
 
-    private int currentColorIndex;  // Color that is currently being used for drawing new lines,
-    // given as an index in the ColoredLine.colorList array.
-
-    private int currentBackgroundIndex;  // Current background color, given as an index in the
-    // ColoredLine.colorList array.
-
     private ColoredLine[] lines;    // An array to hold all the lines that have been
-    private ArrayList<String[]> imageData; //ArrayList to store imageData
-    //        drawn on the canvas.
-    private int lineCount;   // The number of lines that are in the array.
+    private ArrayList<String[]> imageData; //ArrayList to store imageData drawn on the canvas.
+
     int x, y, x2, y2;
+
+
     private String penShape;
+    private JFileChooser fc;
 
     SimpleDrawCanvasWithFiles() {
-        // Construct the canvas, and set it to listen for mouse events.
-        // Also create an array to hold the lines that are displayed on
+        // Constructing the canvas, and allowing listening to mouse events
+        // Also create an array to hold the shapes that have been drawn on
         // the canvas.
         setBackground(Color.white);
-        currentColorIndex = 0;
-        currentBackgroundIndex = 12;
-        //lines = new ColoredLine[1000]; //ARRAYS?????
-
         imageData=new ArrayList<>();  // IMAGE DATA ARRAY LIST
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -52,31 +47,8 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
         penShape=newPenShape;
     }
 
-    void setColorIndex(int c) {
-        // Set the currentColorIndex, which is used for drawing, to c.
-        // For safety, check first that it is in the range of legal indices
-        // for the ColoredLine.colorList array.
-        if (c >= 0 && c < ColoredLine.colorList.length)
-            currentColorIndex = c;
-    }
-
-    void setBackgroundIndex(int c) {
-        // Set the background color, and redraw the applet using the new background.
-        if (c >= 0 && c < ColoredLine.colorList.length) {
-            currentBackgroundIndex = c;
-            setBackground(ColoredLine.colorList[c]);
-            repaint();
-        }
-    }
-
     void doClear() {
-        // Clear all the lines from the picture.
-//        if (lineCount > 0) {
-//          //  lines = new ColoredLine[1000]; //BACK TO SQUARE ONE
-//            imageData=new ArrayList<>(); //BACK TO SQUARE ONE
-//          //  lineCount = 0;
-//            repaint();
-//        }
+        // Clear all the drawings from the canvas.
         if(imageData.size()>0){
             imageData=new ArrayList<>();
             repaint();
@@ -84,11 +56,6 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
     }
 
     void doUndo() {
-        // Remove most recently added line from the picture.
-//        if (lineCount > 0) {
-//            lineCount--;
-//            repaint();
-//        }
         if(imageData.size()>0){
             imageData.remove(imageData.size()-1);
             repaint();
@@ -96,89 +63,38 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
     }
 
     void doSaveToFile(Frame parentFrame) {
-        // Save all the data for the current drawing to a file.
-        // The file is chosen by the user using a file dialog box.
-        // The parentFrame parameter is requuired to open the
-        // file dialog.
+       //Function to save drawings to a VEC file
 
-        FileDialog fd;  // A file dialog box that will let the user
-        // specify the output file.
 
-        fd = new FileDialog(parentFrame, "Save to File", FileDialog.SAVE);
-        fd.show();
 
-        String fileName = fd.getFile();  // Get the file name specified by the user.
-
-        if (fileName == null)
-            return;  // User has canceled.
-
-        String directoryName = fd.getDirectory();  // The name of the directory
-        //   where the specified file is located.
-
-        File file = new File(directoryName, fileName);  // Combine the directory name with the
-        //  name to produce a usable file specification.
-
-        PrintWriter out;  // Output stream for writing all the data for the current
-        //    drawing to the file.
-
-        try {    // Open the file.
-            out = new PrintWriter( new FileWriter(file) );
-        }
-        catch (IOException e) {
-            //new MessageDialog(parentFrame, "Error while trying to open file \"" + fileName + "\": " + e.getMessage());
-            return;
-        }
-
-        // Write the data for the drawing to the file...
-
-        out.println(currentBackgroundIndex);         // The index of the current background color.
-        out.println(lineCount);                      // The number of lines in the data array.
-        for (int i = 0; i < lineCount; i++) {        // Write the data for each indifvidual line.
-            out.print(lines[i].x1);
-            out.print(" ");
-            out.print(lines[i].y1);
-            out.print(" ");
-            out.print(lines[i].x2);
-            out.print(" ");
-            out.print(lines[i].y2);
-            out.print(" ");
-            out.print(lines[i].colorIndex);
-            out.println();
-        }
-
-        out.close();  // Close the output file.
-
-        // Note that a PrintWriter never throws an exception. In order to make sure that
-        // the date was written successfully, call the PrintWriter's checkError() method.
-        // If out.checkError() returns a value of true, then an error occured while writing
-        // the data and the user should be informed.
-
-        if (out.checkError()){}
-        //new MessageDialog(parentFrame,"Some error occured while trying to save data to the file.");
-
-    } // end doSaveToFile()
+    }
 
 
 
     void doLoadFromFile(Frame parentFrame) {
-        // Read data for a drawing from a file specified by the user in a file dialog box.
-        // Assuming that the data is read successfully, discard the current data and disply
-        // the drawing that was read from the file.  If the user cancels or if an error
-        // occurs while the data is being read, then the current drawing will NOT be
-        // discarded or changed.
+        //Function to load VEC files
 
-        //new MessageDialog(parentFrame, "Sorry, loading is not yet implemented.  (That's your job.)");
+
+        fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("VEC File","VEC"));
+        int returnVal = fc.showOpenDialog(SimpleDrawCanvasWithFiles.this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            //This is where a real application would open the file.
+
+
+            JOptionPane.showMessageDialog(null, "Insert the Drawing functionality here");
+            //SOO THE DRAWING WILL BE DONE FROM THIS POINT ONWARDS
+
+
+        }
 
     } // end LoadFromFile()
 
 
     public void paint(Graphics g) {
-        // Redraw all the lines.
-//        for (int i = 0; i < lineCount; i++) {
-//            int c = lines[i].colorIndex;
-//            g.setColor(ColoredLine.colorList[c]);
-//            g.drawLine(lines[i].x1,lines[i].y1,lines[i].x2,lines[i].y2);
-//        }
+
         for(int i=0;i<imageData.size();i++){
             String[] singleLine=imageData.get(i);
             if(singleLine[0]=="LINE"){
@@ -186,6 +102,13 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
             }
             else if(singleLine[0]=="RECT"){
                 g.drawRect(Integer.valueOf(singleLine[1]),Integer.valueOf(singleLine[2]),(Integer.valueOf(singleLine[3])-Integer.valueOf(singleLine[1])),(Integer.valueOf(singleLine[4])-Integer.valueOf(singleLine[2])));
+            }
+            else if(singleLine[0]=="ELLIPSE"){
+                g.drawOval(Integer.valueOf(singleLine[1]),Integer.valueOf(singleLine[2]),(Integer.valueOf(singleLine[3])-Integer.valueOf(singleLine[1])),(Integer.valueOf(singleLine[4])-Integer.valueOf(singleLine[2])));
+
+            }
+            else if(singleLine[0]=="POLYGON"){
+
             }
 
         }
@@ -230,14 +153,18 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
         prevY = startY;
         dragging = true;
         gc = getGraphics();  // Get a graphics context for use while drawing.
-        gc.setColor(ColoredLine.colorList[currentColorIndex]);
         gc.setXORMode(getBackground());
         if (penShape=="Line"){
             gc.drawLine(startX, startY, prevX, prevY);
         }
         else if (penShape=="Rect"){
-            //gc.drawRect(startX, startY, prevX, prevY);
-            setStartPoint(evt.getX(), evt.getY());
+            //setStartPoint(evt.getX(), evt.getY());
+            gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+        }
+        else if(penShape=="Ellipse"){
+            gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+        }
+        else if(penShape=="Polygon"){
 
         }
 
@@ -257,13 +184,21 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
             gc.drawLine(startX, startY, prevX, prevY);  // Draw the new line.
         }
         else if(penShape=="Rect"){
-//            gc.drawRect(startX,startY,prevX,prevY);
-//            prevX = evt.getX();
-//            prevY = evt.getY();
-//            gc.drawRect(startX,startY,prevX,prevY);
-            setEndPoint(evt.getX(), evt.getY());
-            repaint();
+            gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+            prevX = evt.getX();
+            prevY = evt.getY();
+            gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
         }
+        else if(penShape=="Ellipse"){
+            gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+            prevX = evt.getX();
+            prevY = evt.getY();
+            gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+        }
+        else if(penShape=="Polygon"){
+
+        }
+
     }
 
     public void mouseReleased(MouseEvent evt) {
@@ -295,25 +230,31 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
             System.out.print(imageData);
         }
         else if(penShape=="Rect"){
-            //gc.drawRect(startX, startY, prevX, prevY);
-            //int endX = evt.getX();  // Where the mouse was released.
-            //int endY = evt.getY();
-            setEndPoint(evt.getX(), evt.getY());
-            int px = Math.min(x,x2);
-            int py = Math.min(y,y2);
-            int pw=Math.abs(x-x2);
-            int ph=Math.abs(y-y2);
-            gc.drawRect(px, py, pw, ph);
-
+            gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+            int endX = evt.getX();  // Where the mouse was released.
+            int endY = evt.getY();
             gc.setPaintMode();
-            //gc.drawRect(startX, startY, prevX, prevY);
+            gc.drawRect(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
             gc.dispose();  // Free the graphics context, now that the draw operation is over.
             //Adding Info to list data
-            //String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
-            String[] newRECT={"RECT",String.valueOf(px),String.valueOf(py),String.valueOf(px+pw),String.valueOf(py+ph)};
+            String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
             //Since we store the cordinates in the Array
             imageData.add(newRECT);
             System.out.print(imageData);
+        }
+        else if(penShape=="Ellipse"){
+            gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+            int endX = evt.getX();  // Where the mouse was released.
+            int endY = evt.getY();
+            gc.setPaintMode();
+            gc.drawOval(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
+
+            String[] newELLIPSE={"ELLIPSE",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
+            imageData.add(newELLIPSE);
+            System.out.print(imageData);
+        }
+        else if(penShape=="Polygon"){
+
         }
 
     } // end mouseReleased

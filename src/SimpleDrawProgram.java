@@ -8,6 +8,7 @@
 */
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +36,9 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
         JMenuItem menuItem;
         JRadioButtonMenuItem rbMenuItem;
         JCheckBoxMenuItem cbMenuItem;
+        JFileChooser fc;
+
+
 
         Menu fileMenu = new Menu("File",true);
         fileMenu.add("New");
@@ -72,12 +76,25 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
 
         shapesMenu.add("Rect");
 
+        shapesMenu.add("Ellipse");
+
+        shapesMenu.add("Polygon");
+
         shapesMenu.addActionListener(this);
+
+        JTextField polygonNum=new JTextField("Enter Text");
 
         MenuBar mb = new MenuBar();
         mb.add(fileMenu);
         mb.add(colorMenu);
         mb.add(shapesMenu);
+
+
+
+
+
+        //Create a file chooser
+
 
 
         setMenuBar(mb);
@@ -125,6 +142,10 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
             canvas.setPenShape("Line");
         else if(command.equals("Rect"))    //RECTTTT
             canvas.setPenShape("Rect");
+        else if(command.equals("Ellipse"))    //ELLIPSE
+            canvas.setPenShape("Ellipse");
+        else if(command.equals("Polygon"))    //POLYGON
+            canvas.setPenShape("Polygon");
 
 
     } // end actionPerformed
