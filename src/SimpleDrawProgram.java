@@ -25,11 +25,12 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
 
     SimpleDrawCanvasWithFiles canvas;  // This is where the drawing is actually done.
     // This frame displayes this canvas along with a menu bar.
-
+    JButton colorButton;
     public SimpleDrawProgram() {
         // Constructor.  Create the menus and the canvas, and add them to the
         // frame.  Set the frames' size and location, and show it on the screen.
         super("Simple Draw");
+        setLayout(new BorderLayout());
 
         JMenuBar menuBar;
         JMenu menu, submenu;
@@ -82,25 +83,28 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
 
         shapesMenu.addActionListener(this);
 
-        JTextField polygonNum=new JTextField("Enter Text");
+
 
         MenuBar mb = new MenuBar();
         mb.add(fileMenu);
         mb.add(colorMenu);
         mb.add(shapesMenu);
 
-
-
-
+        JTextField polygonNum=new JTextField("Enter Polygon n");
+        //Button to open colour picker
+        colorButton=new JButton("Select Colour");
+        colorButton.addActionListener(this);
+        JMenuBar jmb=new JMenuBar();
+        jmb.add(polygonNum);
+        jmb.add(colorButton);
 
         //Create a file chooser
-
-
 
         setMenuBar(mb);
 
         canvas = new SimpleDrawCanvasWithFiles();
-        add("Center",canvas);
+        add(canvas,BorderLayout.CENTER);
+        add(jmb,BorderLayout.PAGE_START);
 
         addWindowListener(
                 new WindowAdapter() {  // Window listener object closes the window and ends the
@@ -117,14 +121,21 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
 
     } // end constructor
 
+    public void displayColorSelection(){
+        Color c=JColorChooser.showDialog(this,"Choose",Color.CYAN);
+        canvas.setPenColor(c);
+    }
+
     public void actionPerformed(ActionEvent evt) {
         // A menu command has bee given by the user.  Respond by calling
         // the appropriate method in the canvas (except in the case of the
         // Quit command, which is handled by ending the program).
 
         String command = evt.getActionCommand();
-
-        if (command.equals("Quit")) {
+        if(evt.getSource()==colorButton){
+            displayColorSelection();
+        }
+        else if (command.equals("Quit")) {
             dispose();  // Close the window, then end the program.
             System.exit(0);
         }

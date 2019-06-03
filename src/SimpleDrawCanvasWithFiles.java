@@ -21,6 +21,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
 
     private String penShape;
+    private Color penColor;
     private JFileChooser fc;
 
     SimpleDrawCanvasWithFiles() {
@@ -45,6 +46,11 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
     void setPenShape(String newPenShape){
         penShape=newPenShape;
+    }
+
+    void setPenColor(Color newPenColor){
+        penColor=newPenColor;
+        System.out.println("The new pen colour is"+penColor);
     }
 
     void doClear() {
