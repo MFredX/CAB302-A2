@@ -8,24 +8,23 @@
 */
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
-public class SimpleDrawProgram extends Frame implements ActionListener {
+public class SimpleDrawProgram extends Frame implements ActionListener, KeyListener {
 
     public static void main(String[] args) {
-        // The "main program" simply creates a frame belonging to the class
-        // SimpleDrawProgram.  From then on, the frame takes care of itself.
+        // The main function creates a frame belonging to the class
+        // SimpleDrawProgram.
         new SimpleDrawProgram();
     }
 
     SimpleDrawCanvasWithFiles canvas;  // This is where the drawing is actually done.
     // This frame displayes this canvas along with a menu bar.
     JButton colorButton;
+    JButton polyNButton;
+    int NPoly;
+    JTextField polygonNum;
     public SimpleDrawProgram() {
         // Constructor.  Create the menus and the canvas, and add them to the
         // frame.  Set the frames' size and location, and show it on the screen.
@@ -53,21 +52,6 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
         fileMenu.add("Quit");
         fileMenu.addActionListener(this);
 
-        Menu colorMenu = new Menu("Line Color",true);
-        colorMenu.add("Black");
-        colorMenu.add("Gray");
-        colorMenu.add("Red");
-        colorMenu.add("Green");
-        colorMenu.add("Blue");
-        colorMenu.add("Dark Red");
-        colorMenu.add("Dark Green");
-        colorMenu.add("Dark Blue");
-        colorMenu.add("Cyan");
-        colorMenu.add("Magenta");
-        colorMenu.add("Yellow");
-        colorMenu.add("Brown");
-        colorMenu.add("White");
-        colorMenu.addActionListener(this);
 
 
         Menu shapesMenu = new Menu("Shapes");
@@ -87,15 +71,19 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
 
         MenuBar mb = new MenuBar();
         mb.add(fileMenu);
-        mb.add(colorMenu);
         mb.add(shapesMenu);
 
-        JTextField polygonNum=new JTextField("Enter Polygon n");
+        polygonNum=new JTextField("");
         //Button to open colour picker
         colorButton=new JButton("Select Colour");
         colorButton.addActionListener(this);
+        polyNButton=new JButton("Submit");
+        polyNButton.addActionListener(this);
+        JLabel polyLabel=new JLabel("Enter Polygon n here:");
         JMenuBar jmb=new JMenuBar();
+        jmb.add(polyLabel);
         jmb.add(polygonNum);
+        jmb.add(polyNButton);
         jmb.add(colorButton);
 
         //Create a file chooser
@@ -122,18 +110,25 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
     } // end constructor
 
     public void displayColorSelection(){
-        Color c=JColorChooser.showDialog(this,"Choose",Color.CYAN);
+        Color c=JColorChooser.showDialog(this,"Choose the colour your heart desires",Color.CYAN);
         canvas.setPenColor(c);
+        System.out.println(c);
+       // repaint();
+    }
+
+    public void setNPoly(int newNPoly){
+        NPoly=newNPoly;
     }
 
     public void actionPerformed(ActionEvent evt) {
-        // A menu command has bee given by the user.  Respond by calling
-        // the appropriate method in the canvas (except in the case of the
-        // Quit command, which is handled by ending the program).
 
         String command = evt.getActionCommand();
         if(evt.getSource()==colorButton){
             displayColorSelection();
+        }
+        if(evt.getSource()==polyNButton){
+            //Need to add exception to only allow number not string
+            setNPoly(Integer.valueOf(polygonNum.getText()));
         }
         else if (command.equals("Quit")) {
             dispose();  // Close the window, then end the program.
@@ -159,10 +154,24 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
             canvas.setPenShape("Polygon");
 
 
-    } // end actionPerformed
+    }
 
 
-} // end class SimpleDrawApplet
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
 
 
 
