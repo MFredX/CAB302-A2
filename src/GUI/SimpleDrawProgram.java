@@ -1,4 +1,4 @@
-/*
+package GUI;/*
    In this simple drawing program, the user can draw lines by pressing
    the mouse button and moving the mouse before releasing the button.
    A line is drawn from the point where the mouse button is pressed to the
@@ -15,7 +15,7 @@ public class SimpleDrawProgram extends Frame implements ActionListener, KeyListe
 
     public static void main(String[] args) {
         // The main function creates a frame belonging to the class
-        // SimpleDrawProgram.
+        // GUI.SimpleDrawProgram.
         new SimpleDrawProgram();
     }
 

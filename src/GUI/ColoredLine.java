@@ -1,3 +1,5 @@
+package GUI;
+
 import java.awt.*;
 
 class ColoredLine {  // an object of this class represents a colored line segment
@@ -15,4 +17,4 @@ class ColoredLine {  // an object of this class represents a colored line segmen
     int x2, y2;   // The other endpoint of the line segment.
     int colorIndex;  // The color of the line segment, given as an index in the colorList array.
 
-} // end class ColoredLine
+} // end class GUI.ColoredLine

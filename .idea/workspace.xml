@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b10098f0-83ed-4215-8c09-456dcc5bf1a5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DataProcessing/DrawVEC.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DataProcessing/ReadVEC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 2/SimpleDrawCanvasWithFiles.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment 2/SimpleDrawCanvasWithFiles.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 2/SimpleDrawProgram$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment 2/SimpleDrawProgram$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 2/SimpleDrawProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment 2/SimpleDrawProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SimpleDrawCanvasWithFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SimpleDrawCanvasWithFiles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SimpleDrawProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SimpleDrawProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ColoredLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ColoredLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SimpleDrawCanvasWithFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SimpleDrawCanvasWithFiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SimpleDrawProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SimpleDrawProgram.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,19 +23,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ColoredLine.java">
+        <entry file="file://$PROJECT_DIR$/src/GUI/ColoredLine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
+            <state relative-caret-position="68">
+              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/SimpleDrawProgram.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/GUI/SimpleDrawProgram.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="113" column="8" lean-forward="true" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -42,11 +43,28 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/SimpleDrawCanvasWithFiles.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/GUI/SimpleDrawCanvasWithFiles.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="33" lean-forward="true" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+            <state relative-caret-position="115">
+              <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataProcessing/ReadVEC.java">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataProcessing/DrawVEC.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -110,7 +128,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-15" />
+    <option name="x" value="1905" />
     <option name="width" value="1950" />
     <option name="height" value="2175" />
   </component>
@@ -120,6 +138,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -132,12 +152,22 @@
               <item name="CAB302-A2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="CAB302-A2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CAB302-A2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="DataProcessing" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CAB302-A2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CAB302-A2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="GUI" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -166,7 +196,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="SimpleDrawProgram" />
+      <option name="MAIN_CLASS_NAME" value="GUI.SimpleDrawProgram" />
       <module name="Assignment 2" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -214,8 +244,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1292" height="732" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18042071" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1828479" />
       <window_info id="Image Layers" order="1" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -223,8 +254,8 @@
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info id="Structure" order="6" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3463588" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49953488" weight="0.22019868" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.34602648" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49953488" weight="0.21688741" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -306,27 +337,40 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PaintGUI.java" />
-    <entry file="file://$PROJECT_DIR$/src/ColoredLine.java">
+    <entry file="file://$PROJECT_DIR$/src/DataProcessing/ReadVEC.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataProcessing/DrawVEC.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
+        <state relative-caret-position="85">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SimpleDrawProgram.java">
+    <entry file="file://$PROJECT_DIR$/src/GUI/ColoredLine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="113" column="8" lean-forward="true" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
+        <state relative-caret-position="68">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GUI/SimpleDrawCanvasWithFiles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SimpleDrawCanvasWithFiles.java">
+    <entry file="file://$PROJECT_DIR$/src/GUI/SimpleDrawProgram.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="33" lean-forward="true" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+        <state relative-caret-position="119">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
