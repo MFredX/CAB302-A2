@@ -1,12 +1,3 @@
-/*
-   In this simple drawing program, the user can draw lines by pressing
-   the mouse button and moving the mouse before releasing the button.
-   A line is drawn from the point where the mouse button is pressed to the
-   point where it is released.  A choice of drawing colors is offered in a menu.
-   Another menu offers a choice of background colors.  Drawings can be saved to
-   files and reloaded from files.
-*/
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -17,30 +8,36 @@ import java.awt.event.WindowEvent;
 
 public class SimpleDrawProgram extends Frame implements ActionListener {
 
+    // Declare new canvas
+    private SimpleDrawCanvasWithFiles canvas;   // This is where the drawing is actually done
+
+    // JButton Declarations
+    private JButton colorButton;
+    private JButton plotButton;
+    private JButton lineButton;
+    private JButton rectButton;
+    private JButton ellipseButton;
+
+    /**
+     * Creates a frame belonging to the class SimpleDrawProgram
+     * @param args default
+     */
     public static void main(String[] args) {
-        // The "main program" simply creates a frame belonging to the class
-        // SimpleDrawProgram.  From then on, the frame takes care of itself.
         new SimpleDrawProgram();
     }
 
-    SimpleDrawCanvasWithFiles canvas;  // This is where the drawing is actually done.
-    // This frame displayes this canvas along with a menu bar.
-    JButton colorButton;
-    public SimpleDrawProgram() {
-        // Constructor.  Create the menus and the canvas, and add them to the
-        // frame.  Set the frames' size and location, and show it on the screen.
+    /**
+     * Constructor for frame
+     * Adds menu and canvas and sets size and location
+     */
+    private SimpleDrawProgram() {
         super("Simple Draw");
         setLayout(new BorderLayout());
+        canvas = new SimpleDrawCanvasWithFiles();
+        add(canvas,BorderLayout.CENTER);
+        canvas.setPenShape("Line"); //sets default pen to Line
 
-        JMenuBar menuBar;
-        JMenu menu, submenu;
-        JMenuItem menuItem;
-        JRadioButtonMenuItem rbMenuItem;
-        JCheckBoxMenuItem cbMenuItem;
-        JFileChooser fc;
-
-
-
+        // Add File Menu
         Menu fileMenu = new Menu("File",true);
         fileMenu.add("New");
         fileMenu.addSeparator();
@@ -53,117 +50,113 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
         fileMenu.add("Quit");
         fileMenu.addActionListener(this);
 
-        Menu colorMenu = new Menu("Line Color",true);
-        colorMenu.add("Black");
-        colorMenu.add("Gray");
-        colorMenu.add("Red");
-        colorMenu.add("Green");
-        colorMenu.add("Blue");
-        colorMenu.add("Dark Red");
-        colorMenu.add("Dark Green");
-        colorMenu.add("Dark Blue");
-        colorMenu.add("Cyan");
-        colorMenu.add("Magenta");
-        colorMenu.add("Yellow");
-        colorMenu.add("Brown");
-        colorMenu.add("White");
-        colorMenu.addActionListener(this);
-
-
-        Menu shapesMenu = new Menu("Shapes");
-        shapesMenu.add("Line");
-
-        shapesMenu.add("Plot");
-
-        shapesMenu.add("Rect");
-
-        shapesMenu.add("Ellipse");
-
-        shapesMenu.add("Polygon");
-
-        shapesMenu.addActionListener(this);
-
-
-
         MenuBar mb = new MenuBar();
+        setMenuBar(mb);
         mb.add(fileMenu);
-        mb.add(colorMenu);
-        mb.add(shapesMenu);
 
-        JTextField polygonNum=new JTextField("Enter Polygon n");
-        //Button to open colour picker
-        colorButton=new JButton("Select Colour");
+        // Colour Picker Button
+        colorButton=new JButton("Colour Picker");
         colorButton.addActionListener(this);
         JMenuBar jmb=new JMenuBar();
-        jmb.add(polygonNum);
+        add(jmb,BorderLayout.PAGE_START);
         jmb.add(colorButton);
 
-        //Create a file chooser
+        // Shapes buttons
+            //plot
+        plotButton=new JButton("Plot");
+        plotButton.addActionListener(this);
+        jmb.add(plotButton);
+            //line
+        lineButton=new JButton("Line");
+        lineButton.addActionListener(this);
+        jmb.add(lineButton);
+            //rect
+        rectButton=new JButton("Rect");
+        rectButton.addActionListener(this);
+        jmb.add(rectButton);
+            //ellipse
+        ellipseButton=new JButton("Ellipse");
+        ellipseButton.addActionListener(this);
+        jmb.add(ellipseButton);
 
-        setMenuBar(mb);
-
-        canvas = new SimpleDrawCanvasWithFiles();
-        add(canvas,BorderLayout.CENTER);
-        add(jmb,BorderLayout.PAGE_START);
-
+        // Closing Functionality
         addWindowListener(
-                new WindowAdapter() {  // Window listener object closes the window and ends the
-                    //   program when the user clicks the window's close box.
+                new WindowAdapter() {
+                    // Window listener object closes the window and ends the
+                    // program when the user clicks the window's close box.
                     public void windowClosing(WindowEvent evt) {
                         dispose();
                         System.exit(0);
                     }
                 }
         );
-
         pack();
         show();
 
     } // end constructor
 
-    public void displayColorSelection(){
-        Color c=JColorChooser.showDialog(this,"Choose",Color.CYAN);
+    /**
+     *  Displays the JColourChooser GUI
+     */
+    private void displayColorSelection(){
+        Color c = JColorChooser.showDialog(this,"Choose a Colour",Color.BLACK);
         canvas.setPenColor(c);
     }
 
+    /**
+     * Switch case for determining actions from menu and button press
+     * @param evt   the event call from the menu or button
+     */
     public void actionPerformed(ActionEvent evt) {
-        // A menu command has bee given by the user.  Respond by calling
-        // the appropriate method in the canvas (except in the case of the
-        // Quit command, which is handled by ending the program).
 
         String command = evt.getActionCommand();
-        if(evt.getSource()==colorButton){
-            displayColorSelection();
-        }
-        else if (command.equals("Quit")) {
-            dispose();  // Close the window, then end the program.
-            System.exit(0);
-        }
-        else if (command.equals("New"))
-            canvas.doClear();
-        else if (command.equals("Undo"))
-            canvas.doUndo();
-        else if (command.equals("Save..."))
-            canvas.doSaveToFile(this);
-        else if (command.equals("Load..."))
-            canvas.doLoadFromFile(this);
-        else if(command.equals("Plot"))    //PLOTTTTTTT
-            canvas.setPenShape("Plot");
-        else if(command.equals("Line"))    //LINEEEE
-            canvas.setPenShape("Line");
-        else if(command.equals("Rect"))    //RECTTTT
-            canvas.setPenShape("Rect");
-        else if(command.equals("Ellipse"))    //ELLIPSE
-            canvas.setPenShape("Ellipse");
-        else if(command.equals("Polygon"))    //POLYGON
-            canvas.setPenShape("Polygon");
 
+        switch (command) {
+            // File Menu
+            case "New" :
+                System.out.println("User Selected: File New");
+                canvas.doClear();
+                break;
+            case "Save" :
+                System.out.println("User Selected: File Save");
+                canvas.doSaveToFile(this);
+                break;
+            case "Load" :
+                System.out.println("User Selected: File Load");
+                canvas.doLoadFromFile(this);
+                break;
+            case "Undo" :
+                System.out.println("User Selected: File Undo");
+                canvas.doUndo();
+                break;
+            case "Quit" :
+                System.out.println("User Selected: File Quit");
+                dispose();
+                System.exit(0);
+                break;
+            // Buttons
+            case "Colour Picker" :
+                System.out.println("User Selected: Colour Picker");
+                displayColorSelection();
+                break;
+            case "Plot" :
+                System.out.println("User Selected: Shape Plot");
+                canvas.setPenShape("Plot");
+                break;
+            case "Line" :
+                System.out.println("User Selected: Shape Line");
+                canvas.setPenShape("Line");
+                break;
+            case "Rect" :
+                System.out.println("User Selected: Shape Rect");
+                canvas.setPenShape("Rect");
+                break;
+            case "Ellipse" :
+                System.out.println("User Selected: Shape Ellipse");
+                canvas.setPenShape("Ellipse");
+                break;
+        }
 
     } // end actionPerformed
 
-
 } // end class SimpleDrawApplet
-
-
-
-

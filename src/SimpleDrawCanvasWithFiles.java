@@ -12,18 +12,21 @@ import java.util.ArrayList;
 import java.math.*;
 
 class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMotionListener {
-    // A canvas where the user can draw lines in various colors.
 
-    private ColoredLine[] lines;    // An array to hold all the lines that have been
-    private ArrayList<String[]> imageData; //ArrayList to store imageData drawn on the canvas.
+    //ArrayList to store imageData drawn on the canvas.
+    private ArrayList<String[]> imageData;
 
+    //Global variables for drawing
     int x, y, x2, y2;
 
-
+    // Declarations of global choices
     private String penShape;
     private Color penColor;
     private JFileChooser fc;
 
+    /**
+     * Constructor for canvas
+     */
     SimpleDrawCanvasWithFiles() {
         // Constructing the canvas, and allowing listening to mouse events
         // Also create an array to hold the shapes that have been drawn on
@@ -50,7 +53,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
     void setPenColor(Color newPenColor){
         penColor=newPenColor;
-        System.out.println("The new pen colour is"+penColor);
+        System.out.println("The new pen colour is " + penColor);
     }
 
     void doClear() {
@@ -71,15 +74,10 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
     void doSaveToFile(Frame parentFrame) {
        //Function to save drawings to a VEC file
 
-
-
     }
-
-
 
     void doLoadFromFile(Frame parentFrame) {
         //Function to load VEC files
-
 
         fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter("VEC File","VEC"));
@@ -89,21 +87,23 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
 
-
             JOptionPane.showMessageDialog(null, "Insert the Drawing functionality here");
-            //SOO THE DRAWING WILL BE DONE FROM THIS POINT ONWARDS
-
+            //THE DRAWING WILL BE DONE FROM THIS POINT ONWARDS
 
         }
 
     } // end LoadFromFile()
 
-
     public void paint(Graphics g) {
+
+        System.out.println("DEBUG: Paint Called");
 
         for(int i=0;i<imageData.size();i++){
             String[] singleLine=imageData.get(i);
-            if(singleLine[0]=="LINE"){
+            if(singleLine[0]=="PLOT"){
+                g.drawLine(Integer.valueOf(singleLine[1]),Integer.valueOf(singleLine[2]),Integer.valueOf(singleLine[3]),Integer.valueOf(singleLine[4]));
+            }
+            else if(singleLine[0]=="LINE"){
                 g.drawLine(Integer.valueOf(singleLine[1]),Integer.valueOf(singleLine[2]),Integer.valueOf(singleLine[3]),Integer.valueOf(singleLine[4]));
             }
             else if(singleLine[0]=="RECT"){
@@ -113,16 +113,13 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                 g.drawOval(Integer.valueOf(singleLine[1]),Integer.valueOf(singleLine[2]),(Integer.valueOf(singleLine[3])-Integer.valueOf(singleLine[1])),(Integer.valueOf(singleLine[4])-Integer.valueOf(singleLine[2])));
 
             }
-            else if(singleLine[0]=="POLYGON"){
-
-            }
 
         }
     }
 
     public Dimension getPreferredSize() {
         // Say what size this canvas wants to be.
-        return new Dimension(500,400);
+        return new Dimension(500,500);
     }
 
 
@@ -160,18 +157,20 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
         dragging = true;
         gc = getGraphics();  // Get a graphics context for use while drawing.
         gc.setXORMode(getBackground());
-        if (penShape=="Line"){
-            gc.drawLine(startX, startY, prevX, prevY);
-        }
-        else if (penShape=="Rect"){
-            //setStartPoint(evt.getX(), evt.getY());
-            gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
-        }
-        else if(penShape=="Ellipse"){
-            gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
-        }
-        else if(penShape=="Polygon"){
 
+        switch (penShape) {
+            case "Plot" :
+                gc.drawLine(startX, startY, startX, startY);
+                break;
+            case "Line":
+                gc.drawLine(startX, startY, prevX, prevY);
+                break;
+            case "Rect" :
+                gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+                break;
+            case "Ellipse" :
+                gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+                break;
         }
 
     }
@@ -183,26 +182,23 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
         // start point to the current mouse location.
         if (!dragging)  // Make sure that the drag operation has been properly started.
             return;
-        else if(penShape=="Line") {
+        else if(penShape.equals("Line")) {
             gc.drawLine(startX, startY, prevX, prevY);  // Erase the previous line.
             prevX = evt.getX();
             prevY = evt.getY();
             gc.drawLine(startX, startY, prevX, prevY);  // Draw the new line.
         }
-        else if(penShape=="Rect"){
+        else if(penShape.equals("Rect")){
             gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
             prevX = evt.getX();
             prevY = evt.getY();
             gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
         }
-        else if(penShape=="Ellipse"){
+        else if(penShape.equals("Ellipse")){
             gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
             prevX = evt.getX();
             prevY = evt.getY();
             gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
-        }
-        else if(penShape=="Polygon"){
-
         }
 
     }
@@ -215,52 +211,50 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
         if (!dragging)  // Make sure that the drag operation has been properly started.
             return;
 
-        if(penShape=="Line") {
-            gc.drawLine(startX, startY, prevX, prevY);  // Erase the previous line.
-            int endX = evt.getX();  // Where the mouse was released.
-            int endY = evt.getY();
-            gc.setPaintMode();
-            gc.drawLine(startX, startY, endX, endY);  // Draw the permanent line in regular "paint" mode.
-            gc.dispose();  // Free the graphics context, now that the draw operation is over.
-//            if (lineCount < lines.length) {  // Add the line to the array, if there is room.
-//                lines[lineCount] = new ColoredLine();
-//                lines[lineCount].x1 = startX;
-//                lines[lineCount].y1 = startY;
-//                lines[lineCount].x2 = endX;
-//                lines[lineCount].y2 = endY;
-//                lines[lineCount].colorIndex = currentColorIndex;
-//                lineCount++;
-//            }
-            String[] newLINE = {"LINE", String.valueOf(startX), String.valueOf(startY), String.valueOf(endX), String.valueOf(endY)};
-            imageData.add(newLINE);
-            System.out.print(imageData);
-        }
-        else if(penShape=="Rect"){
-            gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
-            int endX = evt.getX();  // Where the mouse was released.
-            int endY = evt.getY();
-            gc.setPaintMode();
-            gc.drawRect(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
-            gc.dispose();  // Free the graphics context, now that the draw operation is over.
-            //Adding Info to list data
-            String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
-            //Since we store the cordinates in the Array
-            imageData.add(newRECT);
-            System.out.print(imageData);
-        }
-        else if(penShape=="Ellipse"){
-            gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
-            int endX = evt.getX();  // Where the mouse was released.
-            int endY = evt.getY();
-            gc.setPaintMode();
-            gc.drawOval(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
+        int endX = evt.getX();  // Where the mouse was released.
+        int endY = evt.getY();
 
-            String[] newELLIPSE={"ELLIPSE",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
-            imageData.add(newELLIPSE);
-            System.out.print(imageData);
-        }
-        else if(penShape=="Polygon"){
+        switch (penShape) {
+            case "Plot" :
+                gc.drawLine(startX, startY, startX, startY);
+                gc.setPaintMode();
+                gc.drawLine(startX, startY, startX, startY);
+                gc.dispose();
 
+                String[] newPLOT={"PLOT",String.valueOf(startX),String.valueOf(startY),String.valueOf(startX),String.valueOf(startY)};
+                imageData.add(newPLOT);
+                System.out.print("\n"+imageData);
+                break;
+            case "Line":
+                gc.drawLine(startX, startY, prevX, prevY);  // Erase the previous line.
+                gc.setPaintMode();
+                gc.drawLine(startX, startY, endX, endY);  // Draw the permanent line in regular "paint" mode.
+                gc.dispose();  // Free the graphics context, now that the draw operation is over.
+
+                String[] newLINE = {"LINE", String.valueOf(startX), String.valueOf(startY), String.valueOf(endX), String.valueOf(endY)};
+                imageData.add(newLINE);
+                System.out.print("\n"+imageData);
+                break;
+            case "Rect" :
+                gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+                gc.setPaintMode();
+                gc.drawRect(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
+                gc.dispose();  // Free the graphics context, now that the draw operation is over.
+                //Adding Info to list data
+                String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
+                //Since we store the cordinates in the Array
+                imageData.add(newRECT);
+                System.out.print("\n"+imageData);
+                break;
+            case "Ellipse" :
+                gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
+                gc.setPaintMode();
+                gc.drawOval(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
+
+                String[] newELLIPSE={"ELLIPSE",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
+                imageData.add(newELLIPSE);
+                System.out.print("\n"+imageData);
+                break;
         }
 
     } // end mouseReleased
