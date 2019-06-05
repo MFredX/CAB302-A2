@@ -83,8 +83,6 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
         // Closing Functionality
         addWindowListener(
                 new WindowAdapter() {
-                    // Window listener object closes the window and ends the
-                    // program when the user clicks the window's close box.
                     public void windowClosing(WindowEvent evt) {
                         dispose();
                         System.exit(0);
