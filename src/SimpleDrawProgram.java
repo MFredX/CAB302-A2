@@ -31,6 +31,7 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
      * Adds menu and canvas and sets size and location
      */
     private SimpleDrawProgram() {
+        // Create Canvas
         super("Simple Draw");
         setLayout(new BorderLayout());
         canvas = new SimpleDrawCanvasWithFiles();

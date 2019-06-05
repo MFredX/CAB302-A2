@@ -110,6 +110,8 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
     void doLoadFromFile(Frame parentFrame) {
         //Function to load VEC files
 
+        doClear();
+
         fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter("VEC File","VEC"));
         int returnVal = fc.showOpenDialog(SimpleDrawCanvasWithFiles.this);
@@ -136,7 +138,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
                 for (String[] line : FileData) {
                     for (int i = 0; i < line.length; i++) {
-                        System.out.println(line[i]);
+                        System.out.print(line[i]);
                         switch (line[i]) {
                             case "PLOT" :
                                 startX = Integer.valueOf(line[i+1]);
@@ -146,7 +148,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                                 gc.dispose();
                                 String[] newPLOT={"PLOT",String.valueOf(startX),String.valueOf(startY),String.valueOf(startX),String.valueOf(startY)};
                                 imageData.add(newPLOT);
-                                System.out.print("\n"+imageData);
+                                System.out.println(imageData);
                                 break;
                             case "LINE":
                                 startX = Integer.valueOf(line[i+1]);
@@ -158,7 +160,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                                 gc.dispose();  // Free the graphics context, now that the draw operation is over.
                                 String[] newLINE = {"LINE", String.valueOf(startX), String.valueOf(startY), String.valueOf(endX), String.valueOf(endY)};
                                 imageData.add(newLINE);
-                                System.out.print("\n"+imageData);
+                                System.out.println(imageData);
                                 break;
                             case "RECT" :
                                 startX = Integer.valueOf(line[i+1]);
@@ -172,7 +174,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                                 String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
                                 //Since we store the cordinates in the Array
                                 imageData.add(newRECT);
-                                System.out.print("\n"+imageData);
+                                System.out.println(imageData);
                                 break;
                             case "ELLIPSE" :
                                 startX = Integer.valueOf(line[i+1]);
@@ -183,7 +185,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                                 gc.drawOval(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
                                 String[] newELLIPSE={"ELLIPSE",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
                                 imageData.add(newELLIPSE);
-                                System.out.print("\n"+imageData);
+                                System.out.println(imageData);
                                 break;
                         }
                     }
@@ -328,7 +330,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
                 String[] newPLOT={"PLOT",String.valueOf(startX),String.valueOf(startY),String.valueOf(startX),String.valueOf(startY)};
                 imageData.add(newPLOT);
-                System.out.print("\n"+imageData);
+                System.out.println(imageData);
                 break;
             case "Line":
                 gc.drawLine(startX, startY, prevX, prevY);  // Erase the previous line.
@@ -338,7 +340,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
                 String[] newLINE = {"LINE", String.valueOf(startX), String.valueOf(startY), String.valueOf(endX), String.valueOf(endY)};
                 imageData.add(newLINE);
-                System.out.print("\n"+imageData);
+                System.out.println(imageData);
                 break;
             case "Rect" :
                 gc.drawRect(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
@@ -349,7 +351,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                 String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
                 //Since we store the cordinates in the Array
                 imageData.add(newRECT);
-                System.out.print("\n"+imageData);
+                System.out.println(imageData);
                 break;
             case "Ellipse" :
                 gc.drawOval(startX, startY, Math.abs(prevX-startX), Math.abs(prevY-startY));
@@ -358,7 +360,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
                 String[] newELLIPSE={"ELLIPSE",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
                 imageData.add(newELLIPSE);
-                System.out.print("\n"+imageData);
+                System.out.println(imageData);
                 break;
         }
 
