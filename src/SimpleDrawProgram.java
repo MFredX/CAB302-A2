@@ -113,45 +113,35 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
         switch (command) {
             // File Menu
             case "New" :
-                System.out.println("User Selected: File New");
                 canvas.doClear();
                 break;
             case "Save" :
-                System.out.println("User Selected: File Save");
                 canvas.doSaveToFile(this);
                 break;
             case "Load" :
-                System.out.println("User Selected: File Load");
                 canvas.doLoadFromFile(this);
                 break;
             case "Undo" :
-                System.out.println("User Selected: File Undo");
                 canvas.doUndo();
                 break;
             case "Quit" :
-                System.out.println("User Selected: File Quit");
                 dispose();
                 System.exit(0);
                 break;
             // Buttons
             case "Colour Picker" :
-                System.out.println("User Selected: Colour Picker");
                 displayColorSelection();
                 break;
             case "Plot" :
-                System.out.println("User Selected: Shape Plot");
                 canvas.setPenShape("Plot");
                 break;
             case "Line" :
-                System.out.println("User Selected: Shape Line");
                 canvas.setPenShape("Line");
                 break;
             case "Rect" :
-                System.out.println("User Selected: Shape Rect");
                 canvas.setPenShape("Rect");
                 break;
             case "Ellipse" :
-                System.out.println("User Selected: Shape Ellipse");
                 canvas.setPenShape("Ellipse");
                 break;
         }

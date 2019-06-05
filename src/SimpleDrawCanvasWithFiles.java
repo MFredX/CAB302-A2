@@ -64,7 +64,6 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
         String[] newLINE = {"PEN", hex};
         imageData.add(newLINE);
         scaledData.add(newLINE);
-        System.out.println("PEN " + hex);
     }
 
     /**
@@ -154,7 +153,6 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
                 // Converts VEC file to arrayList for drawing and future saving
                 for (String[] line : FileData) {
                     for (int i = 0; i < line.length; i++) {
-                        System.out.println(line[i]);
                         switch (line[i]) {
                             case "PEN" :
                                 String[] newPEN = {"PEN", line[i+1]};
