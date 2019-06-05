@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
     private String penShape;
     private Color penColor;
     private JFileChooser fc;
+    private JFileChooser fs;
 
     /**
      * Constructor for canvas
@@ -73,6 +75,35 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
     void doSaveToFile(Frame parentFrame) {
        //Function to save drawings to a VEC file
+        //String test = "LINE 300 100 100 300";
+
+        String fileString = "";
+
+        for (int i=0;i<imageData.size();i++) {
+            String[] singleLine=imageData.get(i);
+            for (int j=0; j<singleLine.length; j++) {
+                fileString = fileString + singleLine[j] + " ";
+            }
+            fileString = fileString + "\r\n";
+
+        }
+
+
+        fs = new JFileChooser();
+        fs.setFileFilter(new FileNameExtensionFilter("VEC File","VEC"));
+        fs.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        int returnVal = fs.showSaveDialog(SimpleDrawCanvasWithFiles.this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                FileWriter fw = new FileWriter(fs.getSelectedFile()+".VEC");
+                fw.write(fileString);
+                fw.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
 
     }
 
@@ -85,11 +116,85 @@ class SimpleDrawCanvasWithFiles extends Canvas implements MouseListener, MouseMo
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            //This is where a real application would open the file.
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String st;
+                //Declaring an array list to hold the contents of the VEC file
+                ArrayList<String[]> FileData = new ArrayList<>();
 
-            JOptionPane.showMessageDialog(null, "Insert the Drawing functionality here");
-            //THE DRAWING WILL BE DONE FROM THIS POINT ONWARDS
+                while ((st = br.readLine()) != null) {
+                    //Splitting the string lines returning an array
+                    //List<String> st_split = new ArrayList<>(Arrays.asList(st.split("\\s")));
 
+                    //System.out.println(st_split);
+                    FileData.add(st.split("\\s"));
+
+                }
+                int startX, startY, endX, endY;
+                gc = getGraphics();  // Get a graphics context for use while drawing.
+                gc.setXORMode(getBackground());
+
+                for (String[] line : FileData) {
+                    for (int i = 0; i < line.length; i++) {
+                        System.out.println(line[i]);
+                        switch (line[i]) {
+                            case "PLOT" :
+                                startX = Integer.valueOf(line[i+1]);
+                                startY = Integer.valueOf(line[i+2]);
+                                gc.setPaintMode();
+                                gc.drawLine(startX, startY, startX, startY);
+                                gc.dispose();
+                                String[] newPLOT={"PLOT",String.valueOf(startX),String.valueOf(startY),String.valueOf(startX),String.valueOf(startY)};
+                                imageData.add(newPLOT);
+                                System.out.print("\n"+imageData);
+                                break;
+                            case "LINE":
+                                startX = Integer.valueOf(line[i+1]);
+                                startY = Integer.valueOf(line[i+2]);
+                                endX = Integer.valueOf(line[i+3]);
+                                endY = Integer.valueOf(line[i+4]);
+                                gc.setPaintMode();
+                                gc.drawLine(startX, startY, endX, endY);  // Draw the permanent line in regular "paint" mode.
+                                gc.dispose();  // Free the graphics context, now that the draw operation is over.
+                                String[] newLINE = {"LINE", String.valueOf(startX), String.valueOf(startY), String.valueOf(endX), String.valueOf(endY)};
+                                imageData.add(newLINE);
+                                System.out.print("\n"+imageData);
+                                break;
+                            case "RECT" :
+                                startX = Integer.valueOf(line[i+1]);
+                                startY = Integer.valueOf(line[i+2]);
+                                endX = Integer.valueOf(line[i+3]);
+                                endY = Integer.valueOf(line[i+4]);
+                                gc.setPaintMode();
+                                gc.drawRect(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
+                                gc.dispose();  // Free the graphics context, now that the draw operation is over.
+                                //Adding Info to list data
+                                String[] newRECT={"RECT",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
+                                //Since we store the cordinates in the Array
+                                imageData.add(newRECT);
+                                System.out.print("\n"+imageData);
+                                break;
+                            case "ELLIPSE" :
+                                startX = Integer.valueOf(line[i+1]);
+                                startY = Integer.valueOf(line[i+2]);
+                                endX = Integer.valueOf(line[i+3]);
+                                endY = Integer.valueOf(line[i+4]);
+                                gc.setPaintMode();
+                                gc.drawOval(startX, startY, Math.abs(endX-startX), Math.abs(endY-startY));
+                                String[] newELLIPSE={"ELLIPSE",String.valueOf(startX),String.valueOf(startY),String.valueOf(endX),String.valueOf(endY)};
+                                imageData.add(newELLIPSE);
+                                System.out.print("\n"+imageData);
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException e){
+                System.err.println("File not found");
+            }
+            catch (IOException e) {
+                System.err.println("Unable to read the file.");
+            }
         }
 
     } // end LoadFromFile()

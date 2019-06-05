@@ -41,9 +41,9 @@ public class SimpleDrawProgram extends Frame implements ActionListener {
         Menu fileMenu = new Menu("File",true);
         fileMenu.add("New");
         fileMenu.addSeparator();
-        fileMenu.add("Save...");
+        fileMenu.add("Save");
         fileMenu.addSeparator();
-        fileMenu.add("Load...");
+        fileMenu.add("Load");
         fileMenu.addSeparator();
         fileMenu.add("Undo");
         fileMenu.addSeparator();
